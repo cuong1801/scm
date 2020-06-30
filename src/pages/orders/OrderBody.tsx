@@ -149,8 +149,7 @@ const data = [
 ]
 export default function OrderBody() {
     const [orders, setOrder] = useState<IOrder[]>([])
-    const [companys, setCompany] = useState<ICompany[]>([])
-
+    // const [companys, setCompany] = useState<ICompany[]>([])
     useEffect(() => {
         axios
             .get('http://192.168.1.15:3000/api/order')
@@ -161,20 +160,25 @@ export default function OrderBody() {
                 console.log(error)
             })
     }, [])
-    useEffect(() => {
-        axios
-            .get('http://192.168.1.24:3000/api/company')
-            .then((response) => {
-                setCompany(response.data.data.companys)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios
+    //         .get('http://192.168.1.24:3000/api/company')
+    //         .then((response) => {
+    //             setCompany(response.data.data.companys)
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error)
+    //         })
+    // }, [])
     function confirm(orderId: any, productId: any) {
-        // console.log(orderId)
-        // console.log(productId)
-        console.log(data);
+        const result = data.filter(val => val._id === orderId)
+        const products = result[0].products.filter((val => val.productId === productId), {
+
+            constructor(props) {
+                this.setState = ({ isCancel: true })
+            }
+        })
+        console.log(products);
         message.success('Thành công')
     }
     const columns: any = [
@@ -184,7 +188,6 @@ export default function OrderBody() {
             key: '_id',
             width: '4%',
             render: (_: any, order: any, index: number) => {
-                console.log('ádasd', order._id)
                 return (
                     <>
                         <Router>
@@ -285,25 +288,25 @@ export default function OrderBody() {
                                                 {product.isCancel ? (
                                                     <>Đã hủy</>
                                                 ) : (
-                                                    <>
-                                                        <Tag
-                                                            className="is-payment"
-                                                            color={product.isPayment === true ? '#87d068' : 'green'}
-                                                        >
-                                                            {product.isPayment === true
-                                                                ? 'Đã chuyển tiền'
-                                                                : 'Chưa thanh toán'}
-                                                        </Tag>
-                                                        <Tag
-                                                            className="is-delivery"
-                                                            color={product.isDelivery === true ? '#108ee9' : 'blue'}
-                                                        >
-                                                            {product.isDelivery === true
-                                                                ? 'Đã giao hàng'
-                                                                : 'Chưa Giao hàng'}
-                                                        </Tag>
-                                                    </>
-                                                )}
+                                                        <>
+                                                            <Tag
+                                                                className="is-payment"
+                                                                color={product.isPayment === true ? '#87d068' : 'green'}
+                                                            >
+                                                                {product.isPayment === true
+                                                                    ? 'Đã chuyển tiền'
+                                                                    : 'Chưa thanh toán'}
+                                                            </Tag>
+                                                            <Tag
+                                                                className="is-delivery"
+                                                                color={product.isDelivery === true ? '#108ee9' : 'blue'}
+                                                            >
+                                                                {product.isDelivery === true
+                                                                    ? 'Đã giao hàng'
+                                                                    : 'Chưa Giao hàng'}
+                                                            </Tag>
+                                                        </>
+                                                    )}
                                             </div>
                                         </div>
                                     )
@@ -325,7 +328,6 @@ export default function OrderBody() {
                     <div className="products-action-order">
                         <div className="products-action">
                             {order.products.map((product) => {
-                                console.log('ádasd', product._id)
                                 return (
                                     <div>
                                         <div className="product-action">
@@ -334,64 +336,64 @@ export default function OrderBody() {
                                                     <span style={{ width: '102px' }}>_________________</span>
                                                 </>
                                             ) : (
-                                                <>
-                                                    <Popconfirm
-                                                        title="Mặt hàng này đã thanh toán?"
-                                                        okText="Yes"
-                                                        cancelText="No"
-                                                    >
-                                                        <Tag
-                                                            className="is-payment"
-                                                            color={product.isPayment === true ? '' : 'red'}
-                                                            style={{
-                                                                border: product.isPayment === true ? '0px' : '',
-                                                            }}
+                                                    <>
+                                                        <Popconfirm
+                                                            title="Mặt hàng này đã thanh toán?"
+                                                            okText="Yes"
+                                                            cancelText="No"
                                                         >
-                                                            {product.isPayment === false ? 'Thanh toán' : ''}
-                                                        </Tag>
-                                                    </Popconfirm>
-                                                    <Popconfirm
-                                                        title="Đã giao sản phẩm này?"
-                                                        okText="Yes"
-                                                        cancelText="No"
-                                                    >
-                                                        <Tag
-                                                            className="is-delivery"
-                                                            color={product.isDelivery === true ? '' : 'blue'}
-                                                            style={{
-                                                                border: product.isDelivery === true ? '0px' : '',
-                                                            }}
+                                                            <Tag
+                                                                className="is-payment"
+                                                                color={product.isPayment === true ? '' : 'red'}
+                                                                style={{
+                                                                    border: product.isPayment === true ? '0px' : '',
+                                                                }}
+                                                            >
+                                                                {product.isPayment === false ? 'Thanh toán' : ''}
+                                                            </Tag>
+                                                        </Popconfirm>
+                                                        <Popconfirm
+                                                            title="Đã giao sản phẩm này?"
+                                                            okText="Yes"
+                                                            cancelText="No"
                                                         >
-                                                            {product.isDelivery === false ? 'Giao hàng' : ''}
-                                                        </Tag>
-                                                    </Popconfirm>
-                                                    <Popconfirm
-                                                        onConfirm={() => confirm(order._id, product.productId)}
-                                                        onCancel={cancel}
-                                                        title="Hủy mặt hàng này?"
-                                                        okText="Yes"
-                                                        cancelText="No"
-                                                    >
-                                                        <Tag
-                                                            className="cancel-order"
-                                                            style={{
-                                                                display:
-                                                                    product.isPayment === true ||
-                                                                    product.isDelivery === true
-                                                                        ? 'none'
-                                                                        : 'block-inline',
-                                                            }}
+                                                            <Tag
+                                                                className="is-delivery"
+                                                                color={product.isDelivery === true ? '' : 'blue'}
+                                                                style={{
+                                                                    border: product.isDelivery === true ? '0px' : '',
+                                                                }}
+                                                            >
+                                                                {product.isDelivery === false ? 'Giao hàng' : ''}
+                                                            </Tag>
+                                                        </Popconfirm>
+                                                        <Popconfirm
+                                                            onConfirm={() => confirm(order._id, product.productId)}
+                                                            onCancel={cancel}
+                                                            title="Hủy mặt hàng này?"
+                                                            okText="Yes"
+                                                            cancelText="No"
                                                         >
-                                                            <DeleteOutlined
+                                                            <Tag
                                                                 className="cancel-order"
                                                                 style={{
-                                                                    border: product.isCancel === true ? '0px' : '',
+                                                                    display:
+                                                                        product.isPayment === true ||
+                                                                            product.isDelivery === true
+                                                                            ? 'none'
+                                                                            : 'block-inline',
                                                                 }}
-                                                            />
-                                                        </Tag>
-                                                    </Popconfirm>
-                                                </>
-                                            )}
+                                                            >
+                                                                <DeleteOutlined
+                                                                    className="cancel-order"
+                                                                    style={{
+                                                                        border: product.isCancel === true ? '0px' : '',
+                                                                    }}
+                                                                />
+                                                            </Tag>
+                                                        </Popconfirm>
+                                                    </>
+                                                )}
                                         </div>
                                     </div>
                                 )
@@ -420,13 +422,13 @@ export default function OrderBody() {
                                                     <span className="product-price">________</span>
                                                 </>
                                             ) : (
-                                                <>
-                                                    <span className="product-price">
-                                                        {product.totalAmount}
-                                                        <span>đ</span>
-                                                    </span>
-                                                </>
-                                            )}
+                                                    <>
+                                                        <span className="product-price">
+                                                            {product.totalAmount}
+                                                            <span>đ</span>
+                                                        </span>
+                                                    </>
+                                                )}
                                         </div>
                                     )
                                 })}
@@ -463,13 +465,13 @@ export default function OrderBody() {
                                                     <span className="product-price">________</span>
                                                 </>
                                             ) : (
-                                                <>
-                                                    <span className="product-price">
-                                                        {product.totalDonate}
-                                                        <span>đ</span>
-                                                    </span>
-                                                </>
-                                            )}
+                                                    <>
+                                                        <span className="product-price">
+                                                            {product.totalDonate}
+                                                            <span>đ</span>
+                                                        </span>
+                                                    </>
+                                                )}
                                         </div>
                                     )
                                 })}
