@@ -1,0 +1,63 @@
+{
+    "name": "schance-cms-v2",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "antd": "^4.3.3",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "3.4.1",
+        "@ant-design/icons": "^4.2.1",
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
+        "@types/jest": "^24.0.0",
+        "@types/node": "^12.0.0",
+        "@types/react": "^16.9.0",
+        "@types/react-dom": "^16.9.0",
+        "@types/react-router-dom": "^5.1.5",
+        "@types/react-window": "^1.8.2",
+        "axios": "^0.19.2",
+        "bootstrap": "^4.5.0",
+        "icons": "^1.0.0",
+        "node-sass": "^4.14.1",
+        "nodemon": "^2.0.4",
+        "react-highlight-words": "^0.16.0",
+        "react-window": "^1.8.5",
+        "typescript": "~3.7.2"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
+        "@types/jest": "^24.0.0",
+        "@types/node": "^12.0.0",
+        "@types/react": "^16.9.0",
+        "@types/react-dom": "^16.9.0",
+        "typescript": "~3.7.2"
+    },
+    "scripts": {
+        "build-css": "node-sass ./src/scss -o ./src/css",
+        "scss": "nodemon -e scss -x npm run build-css",
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
